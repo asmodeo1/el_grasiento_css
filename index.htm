@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El grasiento</title>
+    <style>
+      /*
+        Nuestro diseño tiene tres columnas, con lo que podríamos usar
+        simplemente flex y dejar el encabezado fuera. Pero vamos a usar grid
+        para seguir practicando con este.
+        El encabezado podría ir fuera del Grid, pero vamos a meterlo también dentro
+
+        Convendría que las imágenes de los productos les cambiásemos el tamaño con algún
+        programa, pues algunas de ellas son muy grandes */
+
+      - tipo de letra título :https://www.dafont.com/es/lyonstype.d8711
+        - logo hamburguesa: https://www.flaticon.es/iconos-gratis/burgues
+
+        */
+        * {
+        margin: 0;
+        padding: 0;
+        font-size: 100%;
+        text-decoration: none;
+      }
+      @font-face {
+        font-family: subwich; /* El nombre que queramos y que usaremos en otras etiquetas */
+        src: url(fuentes/Subwich.otf);
+      }
+      main {
+        display: grid;
+        /* Tres columnas, la segunda ocupando el doble del espacio sobrante */
+        grid-template-columns: 1fr 2fr 1fr;
+        column-gap: 20px; /* Espacio entre columnas */
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+      main h1 {
+        /* El encabezado ocupa las ters columnas, es decir, 4 líneas.
+            También podríamos haber usado grid-column: 1 / span 3 para indicar 
+            columnas  */
+        grid-column: 1 / 4;
+        font-family: subwich; /* El nombre que le dimos a la fuente arriba */
+        font-size: 5rem;
+        color: rgb(113, 4, 4);
+        text-shadow: 2px 2px 2px white;
+        background-color: black;
+        padding-left: 6rem;
+      }
+      main h1 img {
+        /* Usando rem o em dejamos el tamaño del logo parecido al del texto */
+        width: 4rem;
+      }
+      .fotos {
+        padding-left: 20px;
+        padding-top: 30px;
+      }
+      .fotos img {
+        width: 100%;
+        /* Rotamos las fotos 10 grados en en sentido de las agujas del reloj */
+        rotate: 10deg;
+        /* Aunque rotemos la imagen, la caja sigue "estando" en la misma posición,
+            con lo que habrá algunos márgenes que parezca que no hacen nada. Por eso
+            en este caso hemos puesto algunos paddings en fotos y no márgene, salvo
+            el inferior, en las imágenes */
+        margin-bottom: 20px;
+        /* Indicamos la propiedad que queremos animar. Se puede poner más de una
+            separada por comas. No todas las propiedades se pueden animar */
+        transition-property: rotate;
+        /* Indicamos que la animación de la rotación dure 0.8 segundos */
+        transition-duration: 0.8s;
+      }
+      .fotos img:hover {
+        /* Colocamos la imagen horizontalmente; hay que poner deg aunque sea 0 */
+        rotate: 0deg;
+      }
+      .contenido {
+        padding: 20px;
+        background-color: #f5f5dc;
+      }
+      nav {
+        /* Usamos flex para crear el menú */
+        display: flex;
+        /* Con space-between deja espacio entre los elementos pero no a los lados */
+        justify-content: space-between;
+        /* Un espacio entre las columnas */
+        column-gap: 10px;
+      }
+
+      nav a {
+        color: white;
+        background-color: brown;
+        /* Para que ocupen todo el espacio que puedan en su columna flex */
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        /* Creamos un recorte para la caja del enlace. Una página donde crearlos empty-cells: show;
+            https://Fbennettfeely.com/clippy */
+        clip-path: polygon(75% 0%, 94% 50%, 75% 100%, 0% 100%, 13% 50%, 0% 0%);
+        /* Queremos que al pasar el ratón por encima de los enlaces cambie su color de
+            fondo y su forma de recorte mediante una animación */
+        transition-property: background-color, clip-path;
+        transition-duration: 0.4s;
+      }
+      nav a:hover {
+        background-color: rgb(221, 126, 126);
+        /* Cambiamos la forma de recorte */
+        clip-path: polygon(67% 0, 94% 50%, 75% 100%, 0% 100%, 21% 50%, 0% 0%);
+      }
+      .contenido h2 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-bottom: 10px solid brown;
+        margin: 15px 0; /* margen superio en inferior de 15px y laterales de 0 */
+        letter-spacing: 0.5rem; /* Espacio entre letras */
+        word-spacing: 1rem; /* Espacio entre palabras */
+      }
+      /* Ponemos la primera letra de cada h2 en mayúscula. Podríamos haberlo hehco directamente
+        en el propio HTML */
+      .contenido h2::first-letter {
+        text-transform: uppercase;
+      }
+      .contenido p {
+        /* Separación entre líneas */
+        line-height: 1.9rem;
+      }
+      .comentarios {
+        background-color: #f1e1b7;
+      }
+      /* Todo esto es común para todos los comentarios */
+      .comentarios div {
+        border-radius: 5px;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+        padding: 10px;
+        margin: 20px;
+        /* Como vamos a mover la chincheta usando posicionamiento absoluto, debemos cambiar
+            el posicionamiento de su contenedor, static, a otro, normalmente relativo.
+            De no hacer su padre, en este caso, sería el body */
+        position: relative;
+      }
+      .comentarios div:first-child {
+        background-color: rgb(227, 148, 87);
+      }
+      .comentarios div:nth-child(2) {
+        background-color: rgb(241, 174, 123);
+      }
+      .comentarios div:last-child {
+        background-color: rgb(196, 93, 13);
+      }
+      .comentarios img {
+        /* Ponemos la imagen arriba a la derecha de su contenedor.
+            Dando valores negativos, se sale un poco por fuera */
+        position: absolute;
+        top: -10px;
+        right: -5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1><img src="imagenes/logo.png" alt="logotipo" /> El grasiento</h1>
+      <section class="fotos">
+        <img src="imagenes/hamburguesa.webp" alt="" />
+        <img src="imagenes/pizza.jpeg" alt="" />
+        <img src="imagenes/perritos.jpeg" alt="" />
+        <img src="imagenes/patatas.jpg" alt="" />
+        <img src="imagenes/refresco.jpeg" alt="" />
+      </section>
+      <section class="contenido">
+        <!-- Metemos el nav dentro de la sección pues si no sería otra columna -->
+        <nav>
+          <a href="">carta</a>
+          <a href="">pedidos</a>
+          <a href="">contacto</a>
+        </nav>
+        <h2>nuestro compromiso</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
+          dolore ad, perspiciatis quae saepe neque, repudiandae maxime, itaque
+          nemo distinctio dolor vitae quibusdam autem minima corrupti odit
+          necessitatibus vero in officia! Expedita nesciunt totam esse quas?
+          Totam maxime tempora, minima quo veritatis autem voluptate ratione
+          eius quos nostrum natus similique voluptas obcaecati ut corporis
+          laboriosam est. Eveniet incidunt sed nihil adipisci praesentium,
+          facere, explicabo in ad eius neque accusantium vitae maiores fugit est
+          soluta nesciunt veniam odio tempora deleniti porro esse eligendi, vero
+          cum numquam? Corporis, debitis inventore consequuntur obcaecati,
+          dolores voluptate labore tempora rem, quas incidunt totam libero sit!
+        </p>
+        <h2>nuestro servicio</h2>
+        <p>
+          Magni et dolorem cum minima facere. Nisi, aliquam. Aspernatur libero
+          ratione perferendis totam, esse reiciendis unde odio perspiciatis
+          veritatis dolorem et fuga, deleniti voluptatibus quidem mollitia
+          dolores adipisci quam eum ducimus modi non nisi! Quae ipsa accusamus
+          accusantium ex sed nemo dignissimos saepe facilis amet at doloremque
+          unde, nulla numquam vel aliquam alias ad molestiae voluptatem quaerat,
+          ipsam eum ratione neque doloribus? Quis facilis nesciunt officiis
+          ipsa? In illo natus alias molestias laborum, architecto esse! Soluta,
+          dicta. Accusamus possimus doloribus labore dolorum quaerat dolorem
+          quisquam qui illum consequatur impedit quo delectus magni, natus,
+          facere mollitia totam distinctio dignissimos nobis numquam.
+        </p>
+      </section>
+      <section class="comentarios">
+        <div>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam nam,
+          ullam harum aliquid dolore facere nesciunt voluptas laboriosam tempora
+          tenetur?
+          <!-- Al ser una imagen para haber bonito no necesita texto alternativo, pero si que hay
+                que poner alt igualmente.
+                No hemos usado background-image con CSS pues no podría sarlise por fuera de su contenedor */
+                 -->
+          <img src="imagenes/chincheta.png" alt="" />
+        </div>
+        <div>
+          Laudantium porro officia quae modi minima doloremque deserunt. Quo
+          iure inventore eius vero, mollitia facere quos nostrum laborum
+          reprehenderit perspiciatis!
+          <img src="imagenes/chincheta.png" alt="" />
+        </div>
+        <div>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam nam,
+          ullam harum aliquid dolore facere nesciunt voluptas laboriosam tempora
+          tenetur?
+          <img src="imagenes/chincheta.png" alt="" />
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
